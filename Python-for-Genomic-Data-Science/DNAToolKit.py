@@ -7,7 +7,7 @@ class DNAToolKit():
     final exam for the course
     """
    
-    def __init__(self, filepath: str) -> Dict[str: str]:
+    def __init__(self, filepath: str) -> Dict[str, str]:
         """Opens a FASTA file and saves it in a dictionary, where the keys are
         the sequence identifiers and the values are the DNA sequences
 
@@ -24,7 +24,7 @@ class DNAToolKit():
         self.filepath = filepath
         self.dict = {}
 
-        with open(self.file) as f:
+        with open(self.filepath) as f:
             for line in f:
                 line = line.rstrip()
                 if line[0] == ">":
@@ -63,10 +63,15 @@ class DNAToolKit():
         """
         max_len = 0
         min_len = 1e100
+
         max_seq = ""
         min_seq = ""
+
         longest_seq = {}
         shortest_seq = {}
+
+        min_len_id = 0
+        max_len_id = 0
 
         for id, seq in self.dict.items():
             if len(seq) > max_len:
@@ -109,6 +114,7 @@ class DNAToolKit():
         ValueError
             raises ValueError if frame isn't 1, 2 or 3
         """
+        # TODO fix bug
         if frame not in {1, 2, 3}:
             raise ValueError("Frame must be 1, 2 or 3")
 
@@ -121,9 +127,9 @@ class DNAToolKit():
         temp_max_orf = "" # stores temporary orfs
         sequence = sequence[frame - 1:]
 
-        for i in range(0, len(sequence)+3, 3):
+        for i in range(0, len(sequence)-3, 3):
             if sequence[i:i+3] == start:
-                for j in range(i, len(sequence) + 3, 3):
+                for j in range(i, len(sequence)-3, 3):
                     codon = sequence[j:j+3]
                     temp_max_orf += codon
                     orf_len = len(sequence[i:j+3])
@@ -140,7 +146,7 @@ class DNAToolKit():
         else:
             return max_orf, max_orf_len, max_orf_start
         
-    
+
     def repeats(self, sequence: str, n: int) -> dict:
         """Given a length n, identifies all repeats of length n in all sequences of a 
         FASTA file
