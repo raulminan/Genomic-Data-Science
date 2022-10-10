@@ -66,32 +66,48 @@ class HWWeek1():
         return t
     
     def phred_33_to_q(self, char: str) -> int:
-        """_summary_
+        """Turn Phred+33 ASCII-encoded quality into Q
 
         Parameters
         ----------
         char : str
-            _description_
+            ASCII encoded quality
 
         Returns
         -------
         int
-            _description_
+            Q
         """
         return ord(char) - 33
 
+    def q_to_phred_33(self, q: int) -> str:
+        """Turns Q value into a Phred+33 ASCII-encoded quality char
+
+        Parameters
+        ----------
+        q : int
+            Q value
+
+        Returns
+        -------
+        str
+            Phred+33 ASCII-encoded representation of the Q value
+        """
+        return chr(q+33)
+
     def create_hist(self, qualities: list) -> list:
-        """_summary_
+        """Given a list of qualities, builds a histogram with
+        the frequency of each quality in qualtities
 
         Parameters
         ----------
         qualities : list
-            _description_
+            list of qualities
 
         Returns
         -------
         list
-            _description_
+            list of the frequency of each quality
         """
         hist = [0] * 50
         for qual in qualities:
@@ -102,17 +118,18 @@ class HWWeek1():
         return hist
     
     def find_GC_by_pos(self, reads: list) -> list:
-        """_summary_
+        """Given a list of reads, returns the G/C content
+        at each position
 
         Parameters
         ----------
-        reads : _type_
-            _description_
+        reads : list
+            list of reads
 
         Returns
         -------
-        _type_
-            _description_
+        list
+            list with the G/C content at each position
         """
         gc = [0] * 100
         totals = [0] * 100
@@ -129,20 +146,21 @@ class HWWeek1():
                 
         return gc
 
-    def naive_with_rc(self, pattern: str, text: str) -> int:
-        """_summary_
+    def naive_with_rc(self, pattern: str, text: str) -> list:
+        """Naive matching betweem a pattern and a text in both strands
+        of a DNA string
 
         Parameters
         ----------
         pattern : str
-            _description_
+            dna string to find in text
         text : str
-            _description_
+            dna string where pattern wil be found
 
         Returns
         -------
-        int
-            _description_
+        list
+            list of occurences of the matches
         """
         occurrences = []
         for i in range(len(text) - len(pattern) + 1):  # loop over alignments
@@ -159,19 +177,19 @@ class HWWeek1():
         return occurrences
 
     def naive_2mm(self, pattern: str, text: str) -> list:
-        """_summary_
+        """Naive matching with up to 2 mismatches
 
         Parameters
         ----------
         pattern : str
-            _description_
+            dna string to find in text
         text : str
-            _description_
+            dna string where pattern wil be found
 
         Returns
         -------
         list
-            _description_
+            list of occurences of the matches
         """
         occurrences = []
         for i in range(len(text) - len(pattern) + 1):
@@ -184,3 +202,4 @@ class HWWeek1():
             if mismatches <= 2:
                 occurrences.append(i)  # all chars matched; record
         return occurrences
+        
