@@ -1,7 +1,6 @@
 import pytest 
 import os
-from DNAToolKit.read_files import read_files
-
+from DNAToolKit import read_files
 
 class Tests:
     
