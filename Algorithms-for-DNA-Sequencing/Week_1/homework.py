@@ -1,4 +1,4 @@
-#!usr/bin/env
+#!/usr/bin/env python
 """This script contains the homework for week 1 of the course"""
 import os
 import matplotlib.pyplot as plt

@@ -1,4 +1,4 @@
-#!usr/bin/env
+#!/usr/bin/env python
 import os
 import regex as re
 from DNAToolKit import DNAToolKit
