@@ -1,1 +1,1 @@
-from .functions import read_fasta, read_fastq
+from .read_functions import read_fasta, read_fastq
