@@ -11,7 +11,6 @@ def substring_approximate_matching(p, t, n, k):
         n (int): maximum amount of mismatches allowed
         k (int): k-mer to use for indexing
     """
-    
     segment_length = round(len(p) // (n+1))
     all_matches = set()
     idx = Index(t, k)
