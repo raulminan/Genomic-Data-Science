@@ -99,7 +99,7 @@ class HomeWorkWeek2:
                 occurrences.add(i)  # all chars matched; record
         return list(occurrences)
 
-    def boyer_approximate__matching(p, t, n):
+    def boyer_approximate_matching(p, t, n):
         """Do approximate marching using the Boyer-Moore algorith and the pigeon
         principle
 
@@ -151,7 +151,6 @@ class HomeWorkWeek2:
             n (int): maximum amount of mismatches allowed
             k (int): k-mer to use for indexing
         """
-        
         segment_length = round(len(p) // (n+1))
         all_matches = set()
         idx = Index(t, k)
@@ -210,7 +209,6 @@ class HomeWorkWeek2:
                     continue
                 
                 mismatches = 0
-                t
                 for j in range(0, len(p)):
                     if not p[j] == t[hit-start+j]:
                         mismatches += 1
