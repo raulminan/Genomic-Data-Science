@@ -20,7 +20,7 @@ def naive_matching(pattern: str, text: str, max_mismatches: int = 0) -> list:
         offsets where pattern matches text
     """
     occurrences = set()
-    for i in range(len(text) - pattern + 1):
+    for i in range(len(text) - len(pattern) + 1):
         mismatches = 0
         for j in range(len(pattern)):
             if text[i+j] != pattern[j]:
@@ -30,7 +30,7 @@ def naive_matching(pattern: str, text: str, max_mismatches: int = 0) -> list:
         if mismatches <= max_mismatches:
             occurrences.add(i)
         
-    return list(occurrences)
+    return sorted(list(occurrences))
 
 def naive_matching_with_counts(
     pattern: str,
