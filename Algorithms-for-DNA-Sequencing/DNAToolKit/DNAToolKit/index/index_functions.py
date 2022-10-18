@@ -2,13 +2,31 @@
 from .Index import Index
 from .SubseqIndex import SubseqIndex
 
-# TODO redo this functions
+
 
 def substring_approximate_matching(pattern: str,
                                    text: str,
                                    max_mismatches: int,
                                    kmer_length: int) -> list[int]:
-    
+    """Does approximate matching building an Index data structure allowing a 
+    given number of mismatches
+
+    Parameters
+    ----------
+    pattern : str
+        pattern to match
+    text : str
+        text to match pattern to
+    max_mismatches : int
+        max number of mismatches allowed
+    kmer_length : int
+        kmer_length to use to build the Index data scructure
+
+    Returns
+    -------
+    list[int]
+        list with the offsets in text where pattern occurs
+    """
     segment_length = len(pattern) // (max_mismatches+1)
     all_matches = set()
     idx = Index(text, kmer_length)
@@ -44,7 +62,7 @@ def substring_approximate_matching(pattern: str,
     
     return sorted(list(all_matches)), n_hits
 
-
+# TODO fix this function
 def subseq_approximate_matching(pattern, text, max_mismatches, kmer_length, interval):
     """Do approximate matching using subsequences
     Args:
