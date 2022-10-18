@@ -2,53 +2,51 @@
 from .Index import Index
 from .SubseqIndex import SubseqIndex
 
-def substring_approximate_matching(p, t, n, k):
-    """Do approximate matching using substrings and the pigeonhole principle
+# TODO redo this functions
 
-    Args:
-        p (str): pattern to match
-        t (str): text to match the pattern to
-        n (int): maximum amount of mismatches allowed
-        k (int): k-mer to use for indexing
-    """
-    segment_length = round(len(p) // (n+1))
+def substring_approximate_matching(pattern: str,
+                                   text: str,
+                                   max_mismatches: int,
+                                   kmer_length: int) -> list[int]:
+    
+    segment_length = len(pattern) // (max_mismatches+1)
     all_matches = set()
-    idx = Index(t, k)
+    idx = Index(text, kmer_length)
     n_hits = 0
-
-    for i in range(n+1):
-        start = i*segment_length
-        end = min((i+1)*segment_length, len(p))
-        hits = idx.query(p[start:end])
+    
+    for i in range(max_mismatches + 1):
+        start = i * segment_length
+        end = min((i+1) * segment_length, len(pattern))
+        hits = idx.query(pattern[start:end])
         n_hits += len(hits)
         
         for hit in hits:
-            if hit - start < 0 or hit - start + len(p) > len(t):
+            if (hit - start < 0) or (hit - start + len(pattern) > len(text)):
                 continue
             
             mismatches = 0
             # verify to the left
             for j in range(0, start):
-                if not p[j] == t[hit-start+j]:
+                if pattern[j] != text[hit-start+j]:
                     mismatches += 1
-                    if mismatches > n:
+                    if mismatches > max_mismatches:
                         break  
                     
             # verify to the right
-            for j in range(end, len(p)):
-                if not p[j] == t[hit-start+j]:
+            for j in range(end, len(pattern)):
+                if pattern[j] != text[hit-start+j]:
                     mismatches += 1
-                    if mismatches > n:
+                    if mismatches > max_mismatches:
                         break
         
-            if mismatches <= n:
+            if mismatches <= max_mismatches:
                 all_matches.add(hit - start)
     
-    return list(all_matches), n_hits
+    return sorted(list(all_matches)), n_hits
 
-def subseq_approximate_matching(p, t, n, k, ival):
-    """Do approximate matching using subsequences and the pigeonhole principle
 
+def subseq_approximate_matching(pattern, text, max_mismatches, kmer_length, interval):
+    """Do approximate matching using subsequences
     Args:
         p (str): pattern to match
         t (str): text to match the pattern to
@@ -56,28 +54,38 @@ def subseq_approximate_matching(p, t, n, k, ival):
         k (int): k-mer to use for indexing
         ival (int): interval to use for create sub sequences
     """
+    segment_length = len(pattern) // (max_mismatches+1)
     all_matches = set()
-    idx = SubseqIndex(t, k, ival)
+    idx = SubseqIndex(text, kmer_length, interval)
+    print(idx.index)
     n_hits = 0
     
-    for i in range(n+1):
-        start = i 
-        hits = idx.query(p[start:])
+    for i in range(max_mismatches + 1):
+        start = i * segment_length
+        end = min((i+1) * segment_length, len(pattern))
+        hits = idx.query(pattern[start:end])
         n_hits += len(hits)
+        
         for hit in hits:
-            if hit - start < 0 or hit - start + len(p) > len(t):
+            if (hit - start < 0) or (hit - start + len(pattern) > len(text)):
                 continue
             
             mismatches = 0
-            t
-            for j in range(0, len(p)):
-                if not p[j] == t[hit-start+j]:
+            # verify to the left
+            for j in range(0, start):
+                if pattern[j] != text[hit-start+j]:
                     mismatches += 1
-                    if mismatches > n:
+                    if mismatches > max_mismatches:
                         break  
+                    
+            # verify to the right
+            for j in range(end, len(pattern)):
+                if pattern[j] != text[hit-start+j]:
+                    mismatches += 1
+                    if mismatches > max_mismatches:
+                        break
         
-            if mismatches <= n:
+            if mismatches <= max_mismatches:
                 all_matches.add(hit - start)
     
-    return list(all_matches), n_hits
-    
+    return sorted(list(all_matches)), n_hits
