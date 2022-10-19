@@ -2,6 +2,12 @@ import pytest
 from DNAToolKit import alignment
 
 class Tests:
+    def test_global_alignment_identical(self):
+        x = "AGTCGATCGAGCTAGCGCA"
+        y = "AGTCGATCGAGCTAGCGCA"
+        
+        assert alignment.global_alignment(x, y) == 0
+
     def test_global_alignment_transition(self):
         x = "AGTCGATCGAGCTAGCGCA"
         y = "GGTCGATCGAGCTAGCGCA"
