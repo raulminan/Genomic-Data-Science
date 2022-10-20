@@ -1,6 +1,6 @@
 import os
 import pytest
-from DNAToolKit import assembly
+from DNAToolKit.DNAToolKit import assembly
 
 class Tests:
     """tests for assembly module"""

@@ -1,7 +1,7 @@
 import os
 import pytest
 
-from DNAToolKit import index, read_files, naive
+from DNAToolKit.DNAToolKit import index, read_files, naive
 
 class Tests:
     """Tests for index module"""

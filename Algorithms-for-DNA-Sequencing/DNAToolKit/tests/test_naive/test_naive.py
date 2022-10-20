@@ -1,7 +1,7 @@
 import os
 import pytest
 
-from DNAToolKit import naive
+from DNAToolKit.DNAToolKit import naive
 
 class Tests:
     "tests for the naive module"

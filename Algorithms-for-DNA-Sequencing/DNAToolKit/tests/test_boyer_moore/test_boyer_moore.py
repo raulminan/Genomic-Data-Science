@@ -1,7 +1,7 @@
 import pytest
 import os
 
-from DNAToolKit import boyer_moore, BoyerMoore
+from DNAToolKit.DNAToolKit import boyer_moore, BoyerMoore
 
 class Tests:
     """tests for boyer_moore module"""

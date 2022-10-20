@@ -1,6 +1,6 @@
 import pytest 
 import os
-from DNAToolKit import read_files
+from DNAToolKit.DNAToolKit import read_files
 
 class Tests:
     """Tests for read_files module"""

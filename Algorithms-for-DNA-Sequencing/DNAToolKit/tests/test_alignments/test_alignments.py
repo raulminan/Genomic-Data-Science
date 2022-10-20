@@ -1,5 +1,5 @@
 import pytest
-from DNAToolKit import alignment
+from DNAToolKit.DNAToolKit import alignment
 
 class Tests:
     def test_global_alignment_identical(self):
