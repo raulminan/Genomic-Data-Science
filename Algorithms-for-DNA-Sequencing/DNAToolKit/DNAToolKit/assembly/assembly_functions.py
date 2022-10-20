@@ -101,3 +101,80 @@ def overlap_map(reads: list[str], min_length: int) -> dict[Tuple[str, str], int]
                 overlap_graph[read] = kmer
 
     return overlap_map, overlap_graph
+
+def scs(ss: list) -> str:
+    """Computes the shortest common superstring (scs) of a set of strings
+    The scs is the shortest string that contains all other strings as substrings 
+
+    Parameters
+    ----------
+    ss : list
+        set of strings
+
+    Returns
+    -------
+    str
+        scs of ss
+    """
+    scs = None
+    for permutation in permutations(ss):
+        sup = permutation[0]
+        for i in range(len(ss) - 1):
+            overlap_length = overlap(permutation[i], permutation[i+1], 1)
+            sup += permutation[i+1][overlap_length:] # append the part that doesn't overlap
+    
+        if scs is None or len(sup) < len(scs):
+            scs = sup
+
+    return scs
+
+def pick_maximal_overlap(reads: list, min_overlap: int) -> Tuple[str, str, int]:
+    """Returns the two strings with the maximum overlap and the overlap
+    from a set of strings
+
+    Parameters
+    ----------
+    reads : list
+        set of dna reads
+    min_overlap : int
+        minium overlap to count
+
+    Returns
+    -------
+    Tuple[str, str, int]
+        two strings with the max overlap length and the legnth
+    """
+    read_a, read_b = None, None
+    best_overlap_length = 0
+    for a, b in permutations(reads, 2):
+        overlap_length = overlap(a, b, min_length=min_overlap)
+        if overlap_length > best_overlap_length:
+            read_a, read_b = a, b
+            best_overlap_length = overlap_length
+    
+    return read_a, read_b, best_overlap_length
+
+def greedy_scs(reads: list, min_length: int) -> str:
+    """Returns the shortest common superstring of a set of reads using a
+    greedy approach
+
+    Parameters
+    ----------
+    reads : list
+        list of reads
+    min_length : int
+        min length of overlap allowed
+
+    Returns
+    -------
+    str
+        shortest common supersring of the set of reads
+    """
+    read_a, read_b, overlap_length = pick_maximal_overlap(reads, min_length)
+    while overlap_length > 0:
+        reads.remove(read_a)
+        reads.remove(read_b)
+        reads.append(read_a + read_b[overlap_length:]) # append suffix of b to a
+        read_a, read_b, overlap_length = pick_maximal_overlap(reads, min_length)
+    
+    return "".join(reads) # join remaiming reads

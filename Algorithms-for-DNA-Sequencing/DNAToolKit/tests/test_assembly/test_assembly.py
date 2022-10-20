@@ -60,3 +60,16 @@ class Tests:
         time_ = end - start
 
         assert time_ < 20 # function shouldn't take "much more than 15s"
+
+    def test_scs(self):
+        set = ["ACGGTACGAGC", "GAGCTTCGGA", "GACACGG"]
+        
+        assert assembly.scs(set) == "GACACGGTACGAGCTTCGGA"
+    
+    def test_greedy_scs(self):
+        set1 = ["ABC", "BCA", "CAB"]
+        set2 = ["ABCD", "CDBC", "BCDA"]
+
+        assert assembly.greedy_scs(set1, 2) == "CABCA"
+        assert assembly.greedy_scs(set2, 1) == "CDBCABCDA"
+        
