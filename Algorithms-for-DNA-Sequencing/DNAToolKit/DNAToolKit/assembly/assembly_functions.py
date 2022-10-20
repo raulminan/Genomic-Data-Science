@@ -69,7 +69,8 @@ def overlap_map(reads: list[str], min_length: int) -> dict[Tuple[str, str], int]
     """
     genome = "".join(reads)
     sets = {}
-    overlaps = {}
+    overlap_map = {}
+    overlap_graph = {}
     
     # let every kmer in the dataset have an associated set() object
     for i in range(len(genome), min_length + 1):
@@ -94,9 +95,9 @@ def overlap_map(reads: list[str], min_length: int) -> dict[Tuple[str, str], int]
         suffix = read[-min_length:]
         kmers = list(sets[suffix])
         for kmer in kmers:
-            if read == kmer:
-                continue # don't overlap reads with themselves
-            overlap_length = overlap(read, kmer, min_length)
-            overlaps[(read, kmer)] = overlap_length
+            if read != kmer:
+                overlap_length = overlap(read, kmer, min_length)
+                overlap_map[(read, kmer)] = overlap_length
+                overlap_graph[read] = kmer
 
-    return overlaps
+    return overlap_map, overlap_graph

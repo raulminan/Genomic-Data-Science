@@ -29,7 +29,7 @@ class Tests:
     
     def test_overlap_map_keys(self):
         reads = ['ABCDEFG', 'EFGHIJ', 'HIJABC']
-        map = assembly.overlap_map(reads, 3)
+        map, _ = assembly.overlap_map(reads, 3)
 
         assert list(map.keys()) == [
             ('ABCDEFG', 'EFGHIJ'), 
@@ -38,7 +38,7 @@ class Tests:
 
     def test_overlap(self):
         reads = ["ACGGATGATC", "GATCAAGT", "TTCACGGA"]
-        map_ = assembly.overlap_map(reads, 3)
+        map_, _ = assembly.overlap_map(reads, 3)
 
         assert map_ == {
             ("ACGGATGATC", "GATCAAGT"): 4,
@@ -55,7 +55,7 @@ class Tests:
         )
 
         start = time.perf_counter()
-        map = assembly.overlap_map(reads, 30)
+        map, _ = assembly.overlap_map(reads, 30)
         end = time.perf_counter()
         time_ = end - start
 
