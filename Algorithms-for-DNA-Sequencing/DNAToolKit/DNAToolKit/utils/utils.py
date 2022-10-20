@@ -58,3 +58,49 @@ def edit_distance(x: str, y: str) -> int:
             D[i][j] = min(dist_hor, dist_ver, dist_diag)
 
     return D[-1][-1]
+
+def edit_distance_fewest_edits(pattern: str, text: str) -> int:
+    """Computes the edit distance of the match between P and T with 
+    the fewest edits
+
+    Parameters
+    ----------
+    pattern : str
+        pattern to match against text
+    text : str
+        text to find pattern in
+
+    Returns
+    -------
+    int
+        edit distance
+    """
+    D = []
+    # init 0-filled matrix
+    for i in range(len(pattern) + 1):
+        D.append([0] * (len(text) + 1))
+    
+    # fill first column
+    for i in range(len(pattern)+1):
+        D[i][0] = i 
+    
+    # note: 
+    # There's no need to init the first row with ascending values
+    # We'll init the first row with all 0 because we don't know ahead
+    # of time where pattern will occur within text, so every offset
+    # is equally likely.
+
+    for i in range(1, len(pattern) + 1):
+        for j in range(1, len(text) + 1):
+            dist_hor = D[i][j-1] + 1
+            dist_ver = D[i-1][j] + 1
+            if pattern[i-1] == text[j-1]:
+                dist_diag = D[i-1][j-1]
+            else:
+                dist_diag = D[i-1][j-1] + 1  
+
+            D[i][j] = min(dist_hor, dist_ver, dist_diag)
+
+    # the lowest edit distance is given my the min in the last row
+    min_distance = min(D[-1])
+    return min_distance
