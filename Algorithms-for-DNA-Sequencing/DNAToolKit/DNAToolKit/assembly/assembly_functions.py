@@ -102,7 +102,7 @@ def overlap_map(reads: list[str], min_length: int) -> dict[Tuple[str, str], int]
 
     return overlap_map, overlap_graph
 
-def scs(ss: list) -> str:
+def scs(ss: list) -> Tuple[str, list[str]]:
     """Computes the shortest common superstring (scs) of a set of strings
     The scs is the shortest string that contains all other strings as substrings 
 
@@ -113,10 +113,14 @@ def scs(ss: list) -> str:
 
     Returns
     -------
-    str
-        scs of ss
+    Tuple[str, list[str]]
+        str
+            first scs found
+        list[str]
+            list of all possible scs
     """
     scs = None
+    scs_list = set()
     for permutation in permutations(ss):
         sup = permutation[0]
         for i in range(len(ss) - 1):
@@ -125,8 +129,12 @@ def scs(ss: list) -> str:
     
         if scs is None or len(sup) < len(scs):
             scs = sup
+            scs_list.add(scs)
+        
+        if len(sup) == len(scs):
+            scs_list.add(sup)
 
-    return scs
+    return scs, sorted(list(scs_list))
 
 def pick_maximal_overlap(reads: list, min_overlap: int) -> Tuple[str, str, int]:
     """Returns the two strings with the maximum overlap and the overlap

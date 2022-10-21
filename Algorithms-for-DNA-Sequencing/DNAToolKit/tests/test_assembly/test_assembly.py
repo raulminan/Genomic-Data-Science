@@ -63,8 +63,15 @@ class Tests:
 
     def test_scs(self):
         set = ["ACGGTACGAGC", "GAGCTTCGGA", "GACACGG"]
+        scs, _ = assembly.scs(set)
         
-        assert assembly.scs(set) == "GACACGGTACGAGCTTCGGA"
+        assert scs == "GACACGGTACGAGCTTCGGA"
+    
+    def test_scs_list(self):
+        set = ['ABC', 'BCA', 'CAB']
+        _, scs_list = assembly.scs(set)
+
+        assert scs_list == ['ABCAB', 'BCABC', 'CABCA']
     
     def test_greedy_scs(self):
         set1 = ["ABC", "BCA", "CAB"]
