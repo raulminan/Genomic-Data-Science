@@ -3,5 +3,6 @@ from .assembly_functions import (
     naive_overlap_map, 
     overlap_map,
     scs,
-    greedy_scs
+    greedy_scs,
+    de_bruijn
 )

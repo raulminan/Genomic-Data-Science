@@ -72,4 +72,19 @@ class Tests:
 
         assert assembly.greedy_scs(set1, 2) == "CABCA"
         assert assembly.greedy_scs(set2, 1) == "CDBCABCDA"
-        
+    
+    def test_de_bruijn(self):
+        read = "ACGCGTCG"
+        k = 3
+
+        nodes, edges = assembly.de_bruijn(read, k)
+
+        assert nodes == {"GC", "AC", "GT", "CG", "TC"}
+        assert edges == [
+            ("AC", "CG"),
+            ("CG", "GC"),
+            ("GC", "CG"),
+            ("CG", "GT"),
+            ("GT", "TC"),
+            ("TC", "CG"),
+        ]

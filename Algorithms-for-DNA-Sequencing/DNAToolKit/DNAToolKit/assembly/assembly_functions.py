@@ -178,3 +178,29 @@ def greedy_scs(reads: list, min_length: int) -> str:
         read_a, read_b, overlap_length = pick_maximal_overlap(reads, min_length)
     
     return "".join(reads) # join remaiming reads
+
+
+def de_bruijn(read: str, k: int) -> dict:
+    """Constructs a De Buijn graph from a string
+
+    Parameters
+    ----------
+    read : str
+        string that will be used for creating the De Bruijn graph
+    k : int
+        size of k-mer to construct the graph. The graph will contain one edge
+        per kmer and one node for every distinct (k-1)-mer.
+
+    Returns
+    -------
+    dict
+        _description_
+    """
+    edges = []
+    nodes = set()
+
+    for i in range(len(read) - k + 1):
+        edges.append((read[i:i+k-1], read[i+1:i+k]))
+        nodes.add(read[i:i+k-1])
+        nodes.add(read[i+1:i+k])
+    return nodes, edges
